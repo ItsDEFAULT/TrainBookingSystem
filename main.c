@@ -37,7 +37,7 @@ int main()
                 if (!res)
                     printf("Account Successfully Created!!");
                 else
-                    printf("There was an error....please try again!");
+                    printf("\nThere was an error....please try again!");
                 break;
             case 3:
                 system("cls");

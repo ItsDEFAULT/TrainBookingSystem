@@ -114,7 +114,7 @@ int new_register() // new account
     FILE *userFile;
     char user[20], pwd[10], cnfPwd[10], email[30], gender;
     int age;
-    userFile = fopen("users.txt", "a+");
+    userFile = fopen("users.txt", "a");
     if (userFile == NULL)
     {
         printf("Error Opening Users File.");
@@ -129,6 +129,11 @@ int new_register() // new account
         return 1;
     }
     clean(user);
+    if (search(user))
+    {
+        printf("Username Taken!!");
+        return 1;
+    }
 
     // Username vaidation ends
 
