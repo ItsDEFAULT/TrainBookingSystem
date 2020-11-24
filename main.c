@@ -1,18 +1,9 @@
 #include "users.h"
 #include "colors.h"
+#include "trains.h"
 USER *currentUser = NULL;
 int main()
 {
-    // if (new_register())
-    //     printf("There was an error registering....please rectify and try again!");
-
-    // USER *usr = login("Shreehari");
-    // if (usr)
-    // printf("Login Successful!");
-    // printf("%s\n%s\n%s\n%d\n%c", usr->username, usr->password, usr->email, usr->age, usr->gender);
-    // else
-    //     printf("User not found!");
-
     int ch, res;
     while (1)
     {
@@ -48,26 +39,36 @@ int main()
                 system("cls");
                 res = new_register();
                 if (!res)
+                {
+                    boldGreen();
                     printf("Account Successfully Created!!");
+                    reset();
+                }
                 else
+                {
+                    boldRed();
                     printf("\nThere was an error....please try again!");
+                    reset();
+                }
                 break;
             case 3:
                 system("cls");
                 boldCyan();
-                printf("Thank you for using the \"Benkyo Train Reservation Software\"!!");
+                printf("\nThank you for using the \"Benkyo Train Reservation Software\"!!\n");
                 reset();
                 return 0;
 
             default:
                 system("cls");
+                boldRed();
                 printf("Invalid Input!!!");
+                reset();
                 break;
             }
         }
         while (currentUser) //  when user logs in
         {
-            printf("\n1.Book a Ticket\n2.Cancel a Ticket\n3.Logout\n");
+            printf("\n1.Book a Ticket\n2.Cancel a Ticket\n3.View your account details\n4.Logout\n5.Create New Train\n");
             printf("Enter your choice:");
             scanf("%d", &ch);
             fflush(stdin);
@@ -75,11 +76,42 @@ int main()
             {
             case 3:
                 system("cls");
+                boldYellow();
+                printf("\nName: ");
+                boldCyan();
+                printf("%s\n", currentUser->username);
+                boldYellow();
+                printf("Password: ");
+                boldCyan();
+                printf("%s\n", currentUser->password);
+                boldYellow();
+                printf("Email: ");
+                boldCyan();
+                printf("%s\n", currentUser->email);
+                boldYellow();
+                printf("Age: ");
+                boldCyan();
+                printf("%d\n", currentUser->age);
+                boldYellow();
+                printf("Gender: ");
+                boldCyan();
+                printf("%c\n", currentUser->gender);
+                reset();
+
+                break;
+
+            case 4:
+                system("cls");
                 currentUser = NULL;
+                break;
+            case 5:
+                newTrain();
                 break;
             default:
                 system("cls");
+                boldRed();
                 printf("Invalid Input!");
+                reset();
                 break;
             }
             break;

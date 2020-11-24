@@ -1,9 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "colors.h"
-#include "trains.h"
 #ifndef LINKED_LIST
 #define LINKED_LIST
+/*
+    LINKED LIST ADT
+    this header follows the following convention:
+    The list head node is called LIST.
+    all other nodes are NODE.
+    this is a generic singly linked list.
+    createList() will create and return a head node.
+    append(param1, param2) will add a node at the end, the node is passed in param2 and the list is passed in param1.
+*/
+
 typedef struct node
 {
     struct node *next;
@@ -34,7 +43,7 @@ LIST *createList()
 NODE *getNode(void *data)
 {
     NODE *newNode = (NODE *)malloc(sizeof(NODE));
-    newNode->data = data;
+    newNode->data = (NODE *)data;
     newNode->next = NULL;
     return newNode;
 }
@@ -47,19 +56,8 @@ void append(LIST *lp, void *data)
         lp->head = lp->rear = newNode;
         return;
     }
-    lp->rear->next = (NODE *)data;
-}
-
-void display(LIST lp)
-{
-    NODE *temp;
-    temp = lp.head;
-    while (temp != NULL)
-    {
-        TRAIN *t = (TRAIN *)temp->data;
-        printf("Train:%s", t->name);
-        temp = temp->next;
-    }
+    lp->rear->next = newNode;
+    lp->rear = newNode; // updating the metadata
 }
 
 #endif

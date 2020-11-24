@@ -211,7 +211,9 @@ int new_register() // new account
     boldYellow();
     printf("Enter your age: ");
     reset();
+    boldBlue();
     scanf("%d", &age);
+    reset();
     if (age < 18)
     {
         boldRed();
@@ -225,8 +227,9 @@ int new_register() // new account
     // Gender input
     boldYellow();
     printf("Enter your gender (M/F): ");
-    reset();
+    boldBlue();
     scanf("%c", &gender);
+    reset();
     while (gender != 'M' && gender != 'm' && gender != 'F' && gender != 'f')
     {
         boldCyan();
