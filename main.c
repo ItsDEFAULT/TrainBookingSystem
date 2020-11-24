@@ -1,4 +1,5 @@
 #include "users.h"
+#include "colors.h"
 USER *currentUser = NULL;
 int main()
 {
@@ -17,9 +18,13 @@ int main()
     {
         while (!currentUser) // if no user is logged in
         {
-            printf("\n1.Login\n2.Sign Up\n3.Exit\n");
-            printf("Enter your choice:");
+            boldYellow();
+            printf("\n1.LOGIN\n2.SIGNUP\n3.EXIT\n");
+            printf("Enter your choice: ");
+            reset();
+            boldBlue();
             scanf("%d", &ch);
+            reset();
             fflush(stdin);
             switch (ch)
             {
@@ -27,9 +32,17 @@ int main()
                 system("cls");
                 currentUser = login();
                 if (currentUser)
+                {
+                    boldGreen();
                     printf("\nLogin Successful! Welcome!");
+                    reset();
+                }
                 else
+                {
+                    boldRed();
                     printf("\nUser not found!\n");
+                    reset();
+                }
                 break;
             case 2:
                 system("cls");
@@ -41,7 +54,9 @@ int main()
                 break;
             case 3:
                 system("cls");
+                boldCyan();
                 printf("Thank you for using the \"Benkyo Train Reservation Software\"!!");
+                reset();
                 return 0;
 
             default:

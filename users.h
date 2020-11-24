@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "colors.h"
 #ifndef USERS
 #define USERS
 
@@ -94,18 +95,28 @@ USER *login() // login to an existing account
 {
     char user[20], pwd[10];
     USER *usr = (USER *)malloc(sizeof(USER));
-    printf("\nEnter your Username:");
+    boldYellow();
+    printf("\nEnter your Username: ");
+    reset();
+    boldBlue();
     fgets(user, 20, stdin);
+    reset();
     clean(user);
     usr = search(user);
-    printf("\nEnter your Password:");
+    boldYellow();
+    printf("\nEnter your Password: ");
+    reset();
+    boldBlue();
     fgets(pwd, 10, stdin);
+    reset();
     clean(pwd);
     if (!usr)
         return NULL;
     if (!strcmp(pwd, usr->password))
         return usr; // successful login
+    boldRed();
     printf("Wrong Password!");
+    reset();
     return NULL;
 }
 
@@ -117,39 +128,61 @@ int new_register() // new account
     userFile = fopen("users.txt", "a");
     if (userFile == NULL)
     {
+        boldRed();
         printf("Error Opening Users File.");
+        reset();
         return 1;
     }
     // Username input and validation
-    printf("Enter your username:");
+    boldYellow();
+    printf("Enter your username: ");
+    reset();
+    boldBlue();
     fgets(user, 21, stdin);
+    reset();
     if (strlen(user) <= 3 || strlen(user) == 20)
     {
+        boldRed();
         printf("Your username must be more than 3 characters and less than 18 characters!!!\n");
+        reset();
         return 1;
     }
     clean(user);
     if (search(user))
     {
+        boldRed();
         printf("Username Taken!!");
+        reset();
         return 1;
     }
 
     // Username vaidation ends
 
     // Password input and validation
-    printf("Enter your password:");
+    boldYellow();
+    printf("Enter your password: ");
+    reset();
+    boldBlue();
     fgets(pwd, 11, stdin);
+    reset();
     while (strlen(pwd) <= 3 || strlen(pwd) == 10)
     {
+        boldRed();
         printf("Your Password Must be more than 3 characters and less than 10 characters!!!\n");
+        reset();
         return 1;
     }
-    printf("Confirm your password:");
+    boldYellow();
+    printf("Confirm your password: ");
+    reset();
+    boldBlue();
     fgets(cnfPwd, 10, stdin);
+    reset();
     while (strcmp(pwd, cnfPwd))
     {
+        boldRed();
         printf("Passwords Do not Match!!!\n");
+        reset();
         return 1;
     }
     clean(pwd);
@@ -157,11 +190,17 @@ int new_register() // new account
     // Password validation ends
 
     // Email input
-    printf("Enter your email:");
+    boldYellow();
+    printf("Enter your email: ");
+    reset();
+    boldBlue();
     fgets(email, 31, stdin);
+    reset();
     if (strlen(email) == 30 || strlen(email) <= 5)
     {
+        boldRed();
         printf("Your email must be longer than 5 characters and less than 30 characters!!!\n");
+        reset();
         return 1;
     }
     clean(email);
@@ -169,23 +208,33 @@ int new_register() // new account
     // Email input end
     fflush(stdin); // cleans the buffer for scanf
     // Age input
-    printf("Enter your age:");
+    boldYellow();
+    printf("Enter your age: ");
+    reset();
     scanf("%d", &age);
     if (age < 18)
     {
+        boldRed();
         printf("You must be atleast 18 years old to make an account!!!\n");
+        reset();
         return 1;
     }
 
     // Age input end
     fflush(stdin); // cleans the buffer for scanf
     // Gender input
-    printf("Enter your gender (M/F):");
+    boldYellow();
+    printf("Enter your gender (M/F): ");
+    reset();
     scanf("%c", &gender);
     while (gender != 'M' && gender != 'm' && gender != 'F' && gender != 'f')
     {
+        boldCyan();
         printf("\nInput can either be 'M' or 'F'!!!");
-        printf("\nEnter your gender (M/F):");
+        reset();
+        boldYellow();
+        printf("\nEnter your gender (M/F): ");
+        reset();
         scanf("%c", &gender);
     }
 
