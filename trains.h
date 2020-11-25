@@ -27,17 +27,38 @@ void remStation(LIST *lp);                           // removes a station from t
 void saveTrain(LIST *lp);                            // saves the train to a flie
 void displayTrain(LIST *lp);                         // displays a given train's details
 LIST *loadTrain(char *path);                         // returns a train object, searching by its path
+void showAll();                                      // well....it shows all the trains
 
 void displayTrain(LIST *lp)
 {
     TRAIN *tPtr = (TRAIN *)lp->head->data; // the head node
-    printf("Train ID: %d\n", tPtr->id);
-    printf("Train: %s\n", tPtr->name);
-    printf("Passenger Capacity: %d\n", tPtr->passengerCapacity);
-    printf("Price Per Km: %f\n", tPtr->pricePerKm);
-    printf("Total Distance: %f\n", tPtr->totalDistance);
-    printf("Total Stations: %d\n", tPtr->totalStations);
+    boldYellow();
+    printf("Train ID: ");
+    boldBlue();
+    printf("%d\n", tPtr->id);
+    boldYellow();
+    printf("Train: ");
+    boldBlue();
+    printf("%s\n", tPtr->name);
+    boldYellow();
+    printf("Passenger Capacity: ");
+    boldBlue();
+    printf("%d\n", tPtr->passengerCapacity);
+    boldYellow();
+    printf("Price Per Km: ");
+    boldBlue();
+    printf("%f\n", tPtr->pricePerKm);
+    boldYellow();
+    printf("Total Distance: ");
+    boldBlue();
+    printf("%f\n", tPtr->totalDistance);
+    boldYellow();
+    printf("Total Stations: ");
+    boldBlue();
+    printf("%d\n", tPtr->totalStations);
+    reset();
 
+    boldMagenta();
     printf("The Train Visits the following stations: \n");
 
     STATION *tempStation;
@@ -45,8 +66,15 @@ void displayTrain(LIST *lp)
     while (temp != NULL)
     {
         tempStation = (STATION *)temp->data;
-        printf("->Station Name: %s,  ", tempStation->cityName);
-        printf("Distance from previous Station: %f\n", tempStation->distance);
+        boldYellow();
+        printf("->Station Name: ");
+        boldBlue();
+        printf("%s,  ", tempStation->cityName);
+        boldYellow();
+        printf("Distance from previous Station: ");
+        boldBlue();
+        printf("%f\n", tempStation->distance);
+        reset();
         temp = temp->next;
     }
 }
@@ -287,6 +315,24 @@ LIST *loadTrain(char *path)
     displayTrain(train);
     fclose(trainFile);
     return train;
+}
+
+void showAll()
+{
+    FILE *allTrains = fopen("allTrains.txt", "r");
+    char path[30];
+    while (fgets(path, 30, allTrains))
+    {
+        boldMagenta();
+        printf("\n\n------------------------------------------------------------------------\n\n");
+        reset();
+        clean(path); // removes the trailing \n thats added in fgets
+        loadTrain(path);
+        boldMagenta();
+        printf("\n\n------------------------------------------------------------------------\n\n");
+        reset();
+    }
+    fclose(allTrains);
 }
 
 #endif

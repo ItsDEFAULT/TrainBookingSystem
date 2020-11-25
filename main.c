@@ -6,13 +6,13 @@ USER *currentUser = NULL;
 int main()
 {
     int ch, res;
-    loadTrain("./trains/Prajwal Express.txt");
     while (1)
     {
         while (!currentUser) // if no user is logged in
         {
             boldYellow();
             printf("\n1.LOGIN\n2.SIGNUP\n3.EXIT\n");
+            boldMagenta();
             printf("Enter your choice: ");
             reset();
             boldBlue();
@@ -27,7 +27,7 @@ int main()
                 if (currentUser)
                 {
                     boldGreen();
-                    printf("\nLogin Successful! Welcome!");
+                    printf("\nLogin Successful! Welcome!\n");
                     reset();
                 }
                 else
@@ -70,9 +70,13 @@ int main()
         }
         while (currentUser) //  when user logs in
         {
-            printf("\n1.Book a Ticket\n2.Cancel a Ticket\n3.View your account details\n4.Logout\n5.Create New Train\n");
+            boldYellow();
+            printf("\n1.Book a Ticket\n2.Cancel a Ticket\n3.View your account details\n4.Create New Train\n5.Show all trains\n6.Logout\n");
+            boldMagenta();
             printf("Enter your choice:");
+            boldBlue();
             scanf("%d", &ch);
+            reset();
             fflush(stdin);
             switch (ch)
             {
@@ -103,11 +107,14 @@ int main()
                 break;
 
             case 4:
-                system("cls");
-                currentUser = NULL;
+                newTrain();
                 break;
             case 5:
-                newTrain();
+                showAll();
+                break;
+            case 6:
+                system("cls");
+                currentUser = NULL;
                 break;
             default:
                 system("cls");
