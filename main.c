@@ -1,10 +1,12 @@
 #include "users.h"
 #include "colors.h"
 #include "trains.h"
+#include "booking.h"
 USER *currentUser = NULL;
 int main()
 {
     int ch, res;
+    loadTrain("./trains/Prajwal Express.txt");
     while (1)
     {
         while (!currentUser) // if no user is logged in

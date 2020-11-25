@@ -22,11 +22,13 @@ typedef struct station // the rest of the nodes
     // struct station *next;
 } STATION;
 
-void addStation(LIST *newList, TRAIN *newTrainNode);
-void remStation(LIST *lp);
-void saveTrain(LIST *lp);
+void addStation(LIST *newList, TRAIN *newTrainNode); // adds a station to the train
+void remStation(LIST *lp);                           // removes a station from the train
+void saveTrain(LIST *lp);                            // saves the train to a flie
+void displayTrain(LIST *lp);                         // displays a given train's details
+LIST *loadTrain(char *path);                         // returns a train object, searching by its path
 
-void displayTrains(LIST *lp)
+void displayTrain(LIST *lp)
 {
     TRAIN *tPtr = (TRAIN *)lp->head->data; // the head node
     printf("Train ID: %d\n", tPtr->id);
@@ -84,7 +86,7 @@ void newTrain()
             saveTrain(newList);
             break;
         case 4:
-            displayTrains(newList);
+            displayTrain(newList);
             break;
         case 5:
             return;
@@ -106,7 +108,6 @@ void addStation(LIST *newList, TRAIN *newTrainNode)
     fflush(stdin);
     printf("Enter the distance from the previous station: ");
     scanf("%f", &newStation->distance);
-    printf("Yo!");
     append(newList, newStation); // appended the new station to the list
     newTrainNode->totalStations++;
     newTrainNode->totalDistance += newStation->distance;
@@ -163,18 +164,18 @@ void saveTrain(LIST *lp)
     strcat(trainName, ".txt");
     char fileName[30] = "./trains/";
     strcat(fileName, trainName);
-    printf("%s", fileName);
     FILE *allTrains = fopen("allTrains.txt", "a");
-    fprintf(allTrains, "%s\n", t->name);
+    fprintf(allTrains, "%s\n", fileName);
     fclose(allTrains);
     FILE *newTrain = fopen(fileName, "w");
     /*
-        the train data is written here, if a train was previously existing,
-        it will be overwritten.
+        the train data is written here, if a train with same name 
+        was previously existing, it will be overwritten.
 
         the file structure after writing the data will be:
-        1st line: all of the train meta data
-        every line after this represents 1 station with the distance wrt prev station
+        1st line: all of the train meta data (comma separated)
+        every line after this represents 1 station with the distance 
+        wrt prev station
      */
     fprintf(newTrain, "%s,%d,%d,%d,%f,%f\n", t->name, t->id, t->passengerCapacity, t->totalStations, t->totalDistance, t->pricePerKm);
     while (temp)
@@ -185,4 +186,107 @@ void saveTrain(LIST *lp)
     }
     fclose(newTrain);
 }
+
+LIST *loadTrain(char *path)
+{
+    LIST *train = createList();
+    TRAIN *meta = (TRAIN *)malloc(sizeof(TRAIN));
+    FILE *trainFile = fopen(path, "r");
+    if (!trainFile) // train not found
+        return NULL;
+    char line[100], word[30];
+    fgets(line, 100, trainFile);
+    int k = 0, i = 0, commaCount = 0; // i index of a line, k index of a word
+    while (line[i] != '\0')
+    {
+        if (commaCount == 0) // train name
+        {
+            while (line[i] != ',')
+                word[k++] = line[i++];
+            word[k] = '\0';
+            commaCount++;
+            strcpy(meta->name, word);
+        }
+        if (commaCount == 1) // train id
+        {
+            k = 0;
+            i++;
+            while (line[i] != ',')
+                word[k++] = line[i++];
+            word[k] = '\0';
+            commaCount++;
+            int id = atoi(word);
+            meta->id = id;
+        }
+        if (commaCount == 2) // passenger capacity
+        {
+            k = 0;
+            i++;
+            while (line[i] != ',')
+                word[k++] = line[i++];
+            word[k] = '\0';
+            int capacity = atoi(word);
+            meta->passengerCapacity = capacity;
+            commaCount++;
+        }
+        if (commaCount == 3) // total stations
+        {
+            k = 0;
+            i++;
+            while (line[i] != ',')
+                word[k++] = line[i++];
+            word[k] = '\0';
+            int stations = atoi(word);
+            meta->totalStations = stations;
+            commaCount++;
+        }
+        if (commaCount == 4) // total distance
+        {
+            k = 0;
+            i++;
+            while (line[i] != ',')
+                word[k++] = line[i++];
+            word[k] = '\0';
+            float dist = atof(word);
+            meta->totalDistance = dist;
+            commaCount++;
+        }
+        if (commaCount == 5) // price per kilometer
+        {
+            k = 0;
+            i++;
+            while (line[i] != '\n')
+                word[k++] = line[i++];
+            word[k] = '\0';
+            float price = atof(word);
+            meta->pricePerKm = price; // all the meta data is now copied into the meta head object
+            commaCount++;
+            break;
+        }
+    }
+    append(train, meta);
+    // to copy the stations
+    while (fgets(line, 100, trainFile))
+    {
+        STATION *newStation = (STATION *)malloc(sizeof(STATION));
+        i = 0;
+        k = 0;
+        while (line[i] != ',')
+            word[k++] = line[i++];
+        word[k] = '\0';
+        strcpy(newStation->cityName, word);
+        i++;
+        k = 0;
+        while (line[i] != '\n')
+            word[k++] = line[i++];
+        word[k] = '\0';
+        float dist = atof(word);
+        newStation->distance = dist;
+        append(train, newStation); // adds this node to the linked list
+    }
+    displayTrain(train);
+    fclose(trainFile);
+    return train;
+}
+
 #endif
