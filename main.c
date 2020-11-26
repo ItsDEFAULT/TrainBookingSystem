@@ -80,6 +80,9 @@ int main()
             fflush(stdin);
             switch (ch)
             {
+            case 1:
+                book();
+                break;
             case 3:
                 system("cls");
                 boldYellow();

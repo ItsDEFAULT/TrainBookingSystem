@@ -22,16 +22,23 @@ typedef struct station // the rest of the nodes
     // struct station *next;
 } STATION;
 
-void addStation(LIST *newList, TRAIN *newTrainNode); // adds a station to the train
-void remStation(LIST *lp);                           // removes a station from the train
-void saveTrain(LIST *lp);                            // saves the train to a flie
-void displayTrain(LIST *lp);                         // displays a given train's details
-LIST *loadTrain(char *path);                         // returns a train object, searching by its path
-void showAll();                                      // well....it shows all the trains
+void addStation(LIST *, TRAIN *); // adds a station to the train
+void remStation(LIST *);          // removes a station from the train
+void saveTrain(LIST *);           // saves the train to a flie
+void displayTrain(LIST *);        // displays a given train's details
+LIST *loadTrain(char *);          // returns a train object, searching by its path
+void showAll();                   // well....it shows all the trains
 
 void displayTrain(LIST *lp)
 {
     TRAIN *tPtr = (TRAIN *)lp->head->data; // the head node
+    boldMagenta();
+    printf("\n\n------------------------------------------------------------------------\n");
+    boldCyan();
+    printf("------------------------------TRAIN DETAILS-----------------------------\n");
+    boldMagenta();
+    printf("------------------------------------------------------------------------\n\n");
+    reset();
     boldYellow();
     printf("Train ID: ");
     boldBlue();
@@ -59,7 +66,7 @@ void displayTrain(LIST *lp)
     reset();
 
     boldMagenta();
-    printf("The Train Visits the following stations: \n");
+    printf("\nThe Train Visits the following stations:\n\n");
 
     STATION *tempStation;
     NODE *temp = lp->head->next; // the 1st station
@@ -77,6 +84,9 @@ void displayTrain(LIST *lp)
         reset();
         temp = temp->next;
     }
+    boldMagenta();
+    printf("\n\n------------------------------------------------------------------------\n\n");
+    reset();
 }
 
 void newTrain()
@@ -292,7 +302,7 @@ LIST *loadTrain(char *path)
             break;
         }
     }
-    append(train, meta);
+    append(train, meta); // meta object is now the head
     // to copy the stations
     while (fgets(line, 100, trainFile))
     {
@@ -312,7 +322,6 @@ LIST *loadTrain(char *path)
         newStation->distance = dist;
         append(train, newStation); // adds this node to the linked list
     }
-    displayTrain(train);
     fclose(trainFile);
     return train;
 }
@@ -323,14 +332,8 @@ void showAll()
     char path[30];
     while (fgets(path, 30, allTrains))
     {
-        boldMagenta();
-        printf("\n\n------------------------------------------------------------------------\n\n");
-        reset();
         clean(path); // removes the trailing \n thats added in fgets
         loadTrain(path);
-        boldMagenta();
-        printf("\n\n------------------------------------------------------------------------\n\n");
-        reset();
     }
     fclose(allTrains);
 }
