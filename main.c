@@ -1,11 +1,12 @@
 #include "users.h"
+USER *currentUser = NULL;
 #include "colors.h"
 #include "trains.h"
 #include "booking.h"
-USER *currentUser = NULL;
 int main()
 {
-    int ch, res;
+    int ch, res, ticketID;
+
     while (1)
     {
         while (!currentUser) // if no user is logged in
@@ -71,7 +72,7 @@ int main()
         while (currentUser) //  when user logs in
         {
             boldYellow();
-            printf("\n1.Book a Ticket\n2.Cancel a Ticket\n3.View your account details\n4.Create New Train\n5.Show all trains\n6.Logout\n");
+            printf("\n1.Book a Ticket\n2.View your ticket\n3.View your account details\n4.Create New Train\n5.Show all trains\n6.Logout\n");
             boldMagenta();
             printf("Enter your choice:");
             boldBlue();
@@ -81,7 +82,18 @@ int main()
             switch (ch)
             {
             case 1:
+                system("cls");
                 book();
+                break;
+            case 2:
+                system("cls");
+                boldYellow();
+                printf("Enter your ticket ID: ");
+                boldBlue();
+                scanf("%d", &ticketID);
+                reset();
+                system("cls");
+                displayTicket(ticketID);
                 break;
             case 3:
                 system("cls");
@@ -110,9 +122,11 @@ int main()
                 break;
 
             case 4:
+                system("cls");
                 newTrain();
                 break;
             case 5:
+                system("cls");
                 showAll();
                 break;
             case 6:

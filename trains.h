@@ -28,6 +28,15 @@ void saveTrain(LIST *);           // saves the train to a flie
 void displayTrain(LIST *);        // displays a given train's details
 LIST *loadTrain(char *);          // returns a train object, searching by its path
 void showAll();                   // well....it shows all the trains
+void trainPath(char *);           // returns the path to file of the given train
+
+void trainPath(char *name)
+{
+    char temp[50] = "./trains/";
+    strcat(name, ".txt");
+    strcat(temp, name);
+    strcpy(name, temp);
+}
 
 void displayTrain(LIST *lp)
 {
@@ -329,11 +338,13 @@ LIST *loadTrain(char *path)
 void showAll()
 {
     FILE *allTrains = fopen("allTrains.txt", "r");
+    LIST *temp;
     char path[30];
     while (fgets(path, 30, allTrains))
     {
         clean(path); // removes the trailing \n thats added in fgets
-        loadTrain(path);
+        temp = loadTrain(path);
+        displayTrain(temp);
     }
     fclose(allTrains);
 }
