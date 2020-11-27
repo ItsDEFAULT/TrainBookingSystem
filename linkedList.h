@@ -60,4 +60,18 @@ void append(LIST *lp, void *data)
     lp->rear = newNode; // updating the metadata
 }
 
+void deleteList(LIST *lp)
+{
+    NODE *temp = lp->head;
+    NODE *prev = temp;
+    while (temp)
+    {
+        prev = temp;
+        temp = temp->next;
+        free(prev->data);
+        free(prev);
+    }
+    free(lp);
+}
+
 #endif

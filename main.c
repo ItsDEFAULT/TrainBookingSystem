@@ -131,6 +131,7 @@ int main()
                 break;
             case 6:
                 system("cls");
+                free(currentUser);
                 currentUser = NULL;
                 break;
             default:

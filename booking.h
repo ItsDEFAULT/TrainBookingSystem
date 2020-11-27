@@ -36,6 +36,7 @@ int findTrains(char *src, char *dest)
             }
             temp = temp->next;
         }
+        deleteList(tempTrain);
     }
     fclose(allTrains);
     return found;
@@ -117,12 +118,14 @@ void book()
             if (c == 'Y' || c == 'y')
             {
                 int id = writeTicket(totalPrice, numberOfTickets, source, dest);
+                deleteList(train);
                 boldGreen();
                 printf("Ticket(s) booked successfully!\nYour ticket ID is: %d\nHAPPY JOURNEY!", id);
                 reset();
             }
             else
             {
+                deleteList(train);
                 boldCyan();
                 printf("Thankyou for using the Benkyo TRS! Have a good day!");
                 reset();
@@ -131,6 +134,7 @@ void book()
         }
         else
         {
+            deleteList(train);
             boldRed();
             printf("Sorry....the train does not have %d seats.", numberOfTickets);
             reset();

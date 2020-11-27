@@ -345,6 +345,7 @@ void showAll()
         clean(path); // removes the trailing \n thats added in fgets
         temp = loadTrain(path);
         displayTrain(temp);
+        deleteList(temp);
     }
     fclose(allTrains);
 }
