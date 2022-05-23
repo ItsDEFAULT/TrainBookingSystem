@@ -209,6 +209,7 @@ void saveTrain(LIST *lp)
     char trainName[20];
     strcpy(trainName, t->name);
     strcat(trainName, ".txt");
+    system("mkdir trains");
     char fileName[30] = "./trains/";
     strcat(fileName, trainName);
     FILE *allTrains = fopen("allTrains.txt", "a");
