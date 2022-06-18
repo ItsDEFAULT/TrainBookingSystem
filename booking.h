@@ -153,6 +153,7 @@ int writeTicket(float price, int numberOfTickets, char *source, char *dest)
 {
     int id;
     char num[20];
+    system("mkdir tickets");
     FILE *idFile = fopen("./tickets/id.txt", "r");
     fgets(num, 20, idFile);
     id = atoi(num) + 1;
